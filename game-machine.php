@@ -2,11 +2,8 @@
 /*  map 3 * 3
     state o, x, and null
     who round? (o Or x)
-    My game is developed with Breadth-first method
+    My game is developed with Depth-first method
 */
-session_start();
-$map = (array) null;
-
 function createMap(){
     $map = (array) null;
     $value = "n";
@@ -65,14 +62,6 @@ function checkMap($m, $mp){
     }
     return 0;
 }
-/**
- * initilizing map
- */
-if(isset($_SESSION['map'])){
-    $map = $_SESSION['map'];
-}else{
-    $_SESSION['map'] = $map = createMap();
-}
 
 class Strategy{
     private $myPos; // x or o
@@ -86,6 +75,7 @@ class Strategy{
         $this->strategy = (array) null;
         $this->turn = $t;
         $this->possible =0;
+        $this->findStrategy();
     }
     
     public function findStrategy(){
@@ -100,9 +90,9 @@ class Strategy{
                         $turn = "x";
                     }
                     $check = checkMap($newMap, $this->myPos);
+                    $newStratey = new Strategy($newMap, $this->myPos, $turn);
+                    array_push($this->strategy, $newStratey);
                     if($check == 0){
-                        $newStratey = new Strategy($newMap, $this->myPos, $turn);
-                        array_push($this->strategy, $newStratey);
                         $this->possible += $newStratey->findStrategy();
                     }else{
                         $this->possible += $check;
@@ -115,15 +105,107 @@ class Strategy{
         }
         //echo var_dump($this-> strategy);
     }
+    /**
+     * finding good soltioin
+     */
+
+    public function getStrategy($level){ // {array} strategy object
+        if($this->strategy != (array) null){
+            $HighWinScore = -9;
+            $highPos = -1;
+            $pos = -1;
+            for($i = 0; $i < sizeof($this->strategy); $i++){
+                if(checkMap($this->strategy[$i]->map, $this->myPos)==1){
+                    return $this->strategy[$i]->map;
+                }
+                $possible = $this->strategy[$i]->possible;
+                if($possible > $HighWinScore){
+                    $HighWinScore = $possible;
+                    $pos = $i;
+                }
+                if($level>0 && !$this->defend($this->strategy[$i])){
+                        $highPos = $pos;
+                }
+                //echo '<br>';
+                //echo var_dump($this->defend($this->strategy[$i]));
+                //echo var_dump($this->strategy[$i]->possible);
+            }
+            //echo "highpre" .$highPos;
+            if($level>0 && $highPos > -1){
+                //echo "high" .$highPos;
+                return $this->strategy[$highPos]->map;
+            }
+            return $this->strategy[$pos]->map;
+        }else{
+            return $this->map;
+        }
+    }
+
+    /**
+     * defend system
+     */
+    public function defend($gussStrategy){
+        for($i = 0; $i < sizeof($gussStrategy->strategy); $i++){
+            if(checkMap($gussStrategy->strategy[$i]->map, $this->myPos) == -1){
+                return true; // if you do as gussStrategy, It will lose.
+            }
+        }
+        return false;
+    }  
     
 }
-
-$myCon = new Strategy($map,"x", "o");
-echo '<pre>';
-$myCon->findStrategy();
-foreach($myCon->strategy[0]->strategy[0]->strategy[2]->strategy as $model){
-    echo 'p '.$model->possible.'<br>';
+//fill symbol randomly 
+function random_do($m, $mp){ //map, myPos(x of o)
+    $posx ;
+    $posy ; 
+    do{
+        $posx = rand(0,2);
+        $posy = rand(0,2);
+    }while($m[$posy][$posx] != 'n');
+    $m[$posy][$posx] = $mp;
+    return $m;
 }
-echo 'hello';
 
+/**
+ * initilizing map
+ */
+
+
+function do_next($map, $mp){
+    $newMap ;
+    $numFill = 0; //number of unit that is not 'n';
+    for($i = 0; $i<3 ; $i++){
+        for($j = 0; $j < 3; $j++){
+            if($map[$i][$j] != 'n'){
+                $numFill += 1;
+            }
+        }
+    }
+    echo '<pre>';
+    if($numFill>1){
+        $myCon = new Strategy($map,$mp, $mp);
+        $newMap = $myCon -> getStrategy(1);
+        //echo var_dump($map);
+        //echo var_dump($newMap);
+        return $newMap;
+    }else{
+        $newMap = random_do($map, $mp);
+        $_SESSION['map'] = $map;
+        //echo var_dump($map);
+        //echo var_dump($newMap);
+        return $newMap;
+    }
+}
+/*
+$map = createMap();
+$map[0][1] = 'x';
+$map = do_next($map, 'o');
+$map = do_next($map, 'x');
+$map = do_next($map, 'o');
+$map = do_next($map, 'x');
+$map = do_next($map, 'o');
+$map = do_next($map, 'x');
+$map = do_next($map, 'o');
+//session_destroy();
+*/
 ?>
