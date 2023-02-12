@@ -1,0 +1,118 @@
+:root{
+    --border-color: darkmagenta;
+    --t-color: black;
+    font-size: 20px;
+    font-family: monospace;
+}
+
+html{
+
+}
+
+header{
+    text-align: center;
+    padding: 0.5em;
+    border-bottom: 2px solid var(--border-color);
+}
+
+body{
+    max-width: 600px;
+    margin: auto;
+}
+#main, header, footer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#btn-g{
+    display:flex;
+    justify-content: center;
+}
+
+footer{
+    align-items: flex-end;
+}
+
+#main{
+    border-bottom: 2px solid var(--border-color);
+}
+
+input{
+    margin:2em;
+    margin-right: 0;
+}
+
+button{
+    margin:1em;
+    border:none;
+    border-bottom: 2px solid var(--border-color);
+    background-color: transparent;
+}
+
+button:hover{
+    color: var(--border-color);
+    border-color: var(--t-color) ;
+    transform: translateY(-0.3em);
+    transition: transform ease 0.3s;
+}
+
+/* for game */
+
+#broad{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    height: 400px;
+    margin:1em;
+}
+.row{
+    display: flex;
+    width: 100%;
+    height: 33%;
+}
+.space{
+    width: 33%;
+    height: 100%;
+}
+
+.top{
+    border-bottom: 2px solid var(--border-color);
+}
+
+.bottom{
+    border-top: 2px solid var(--border-color);
+}
+
+.left{
+    border-right: 2px solid var(--border-color);
+}
+
+.right{
+    border-left: 2px solid var(--border-color);
+}
+
+.inside{
+    width: 80%;
+    height: 80%;
+    border:none;
+}
+
+.inside:hover{
+    border: 2px solid var(--border-color);
+    border-radius: 10%;
+    padding:10%;
+}
+
+span{
+    width: 100%;
+    height: 100%;
+    font-size: 5rem;
+    line-height: 50%;
+}
+.red{
+    color:red;
+}
+.blue{
+    color:blue;
+}
+

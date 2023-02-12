@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-tac-toe (Ai test)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Tic-Tac-Top</h1>
+    </header>
+    <body>
+        <div id="main">
+
+        </div>
+        <div id="btn-g">
+            <button id="start-btn" onclick="start()">Start</button>
+            <button id="end-btn" onclick="end()">End</button>
+        </div>
+    </body>
+    <script>
+        const xhttp = new XMLHttpRequest();
+        function start(){
+            let formElements = document.getElementById("frm1").elements;
+            let level = document.getElementsByName("level");
+            let levelValue;
+            for (let i = 0; i < level.length; i++) {
+                let lev = level[i];
+                if (lev.checked) {
+                    levelValue = lev.value;
+                    break;
+                }
+            }
+            
+            let turn = document.getElementsByName("turn");
+            let turnValue;
+            for (let i = 0; i < turn.length; i++) {
+                let tu = turn[i];
+                if (tu.checked) {
+                    turnValue = tu.value;
+                    break;
+                }
+            }
+
+            var com = "off";
+            if(document.getElementsByName("computer")[0].checked){
+                com = "on";
+            }
+            const formValues= levelValue+ ","+turnValue+ ","+ com;
+            xhttp.onload = function() {
+                document.getElementById("main").innerHTML = this.responseText;
+                }
+            xhttp.open("GET", "gameView.php?setting=" + formValues, true);
+            xhttp.send();
+        }
+        function init(){
+            xhttp.onload = function() {
+                document.getElementById("main").innerHTML = this.responseText;
+                }
+            xhttp.open("GET", "initial.html", true);
+            xhttp.send();
+        }
+        function end(){
+            xhttp.onload = function() {
+                document.getElementById("main").innerHTML = this.responseText;
+                }
+            xhttp.open("GET", "initial.html", true);
+            xhttp.send();
+        }
+        init();
+    </script>
+    <footer>
+        <P id="foo">@HtutAungLinn</P>
+    </footer>
+</body>
+</html>

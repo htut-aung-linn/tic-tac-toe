@@ -171,7 +171,7 @@ function random_do($m, $mp){ //map, myPos(x of o)
  */
 
 
-function do_next($map, $mp){
+function do_next($map, $mp, $level){
     $newMap ;
     $numFill = 0; //number of unit that is not 'n';
     for($i = 0; $i<3 ; $i++){
@@ -181,18 +181,16 @@ function do_next($map, $mp){
             }
         }
     }
-    echo '<pre>';
-    if($numFill>1){
+    if($map[1][1]=='n' && $numFill>0){
+        $map[1][1] = $mp;
+        return $map;
+    }elseif($numFill>1){
         $myCon = new Strategy($map,$mp, $mp);
-        $newMap = $myCon -> getStrategy(1);
-        //echo var_dump($map);
-        //echo var_dump($newMap);
+        $newMap = $myCon -> getStrategy($level);
         return $newMap;
     }else{
         $newMap = random_do($map, $mp);
         $_SESSION['map'] = $map;
-        //echo var_dump($map);
-        //echo var_dump($newMap);
         return $newMap;
     }
 }
