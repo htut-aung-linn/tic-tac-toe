@@ -11,66 +11,49 @@
     <header>
         <h1>Tic-Tac-Top</h1>
     </header>
+    <div id="noti"></div>
     <body>
         <div id="main">
-
+            <div id="broad">
+                <div class="row">
+                    <div class="space top left"><button class="inside" id="00" onclick="this.disabled=true; change('0,0')"></button></div>
+                    <div class="space top center"><button class="inside" id="01" onclick="this.disabled=true; change('0,1')"></button></div>
+                    <div class="space top right"><button class="inside" id="02" onclick="this.disabled=true; change('0,2')"></button></div>
+                </div>
+                <div class="row">
+                    <div class="space middle left"><button class="inside" id="10" onclick="this.disabled=true; change('1,0')"></button></div>
+                    <div class="space middle center"><button class="inside" id="11" onclick="this.disabled=true; change('1,1')"></button></div>
+                    <div class="space middle right"><button class="inside" id="12" onclick="this.disabled=true; change('1,2')"></button></div>
+                </div>
+                <div class="row">
+                    <div class="space bottom left"><button class="inside" id="20" onclick="this.disabled=true; change('2,0')"></button></div>
+                    <div class="space bottom center"><button class="inside" id="21" onclick="this.disabled=true; change('2,1')"></button></div>
+                    <div class="space bottom right"><button class="inside" id="22" onclick="this.disabled=true; change('2,2')"></button></div>
+                </div>
+            </div>
+            <div id="setting">
+                <h2>Game Setting</h2>
+                <form id="frm1">
+                    <input type="radio" name="level" value="0" checked>
+                    <label>Easy</label>
+                    <input type="radio" name="level" value="1" checked>
+                    <label>Hard</label><br>
+                    <input type="radio" name="turn" value="o" checked>
+                    <label>O</label>
+                    <input type="radio" name="turn" value="x" checked>
+                    <label>X</label><br>
+                    <input type="checkbox" name="computer">
+                    <label>Computer, first</label>
+                </form>
+            </div>
         </div>
         <div id="btn-g">
             <button id="start-btn" onclick="start()">Start</button>
             <button id="end-btn" onclick="end()">End</button>
         </div>
+        
     </body>
-    <script>
-        const xhttp = new XMLHttpRequest();
-        function start(){
-            let formElements = document.getElementById("frm1").elements;
-            let level = document.getElementsByName("level");
-            let levelValue;
-            for (let i = 0; i < level.length; i++) {
-                let lev = level[i];
-                if (lev.checked) {
-                    levelValue = lev.value;
-                    break;
-                }
-            }
-            
-            let turn = document.getElementsByName("turn");
-            let turnValue;
-            for (let i = 0; i < turn.length; i++) {
-                let tu = turn[i];
-                if (tu.checked) {
-                    turnValue = tu.value;
-                    break;
-                }
-            }
-
-            var com = "off";
-            if(document.getElementsByName("computer")[0].checked){
-                com = "on";
-            }
-            const formValues= levelValue+ ","+turnValue+ ","+ com;
-            xhttp.onload = function() {
-                document.getElementById("main").innerHTML = this.responseText;
-                }
-            xhttp.open("GET", "gameView.php?setting=" + formValues, true);
-            xhttp.send();
-        }
-        function init(){
-            xhttp.onload = function() {
-                document.getElementById("main").innerHTML = this.responseText;
-                }
-            xhttp.open("GET", "initial.html", true);
-            xhttp.send();
-        }
-        function end(){
-            xhttp.onload = function() {
-                document.getElementById("main").innerHTML = this.responseText;
-                }
-            xhttp.open("GET", "initial.html", true);
-            xhttp.send();
-        }
-        init();
-    </script>
+    <script src="script.js"></script>
     <footer>
         <P id="foo">@HtutAungLinn</P>
     </footer>

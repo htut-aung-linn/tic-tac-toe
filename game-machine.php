@@ -42,23 +42,19 @@ function checkMap($m, $mp){
             return -1;
         }
     }
-    if($m[0][0]=='n' || $m[1][1]== 'n' || $m[2][2] == 'n'){
-        return 0;
-    }
-    if($m[0][0]==$mp && $m[1][1]== $mp && $m[2][2] == $mp){
+
+    if($m[0][0]==$mp && $m[1][1]== $mp && $m[2][2] == $mp && !($m[0][0]=='n' || $m[1][1]== 'n' || $m[2][2] == 'n')){
         return 1;
     }
-    if($m[0][0]!= $mp && $m[1][1] != $mp && $m[2][2] != $mp){
+    if($m[0][0]!= $mp && $m[1][1] != $mp && $m[2][2] != $mp  && !($m[0][0]=='n' || $m[1][1]== 'n' || $m[2][2] == 'n')){
         return -1;
     }
-    if($m[0][2]=='n' || $m[1][1]== 'n' || $m[2][0] == 'n'){
-        return 0;
+    
+    if($m[0][2]!= $mp && $m[1][1] != $mp && $m[2][0] != $mp && !($m[0][2]=='n' || $m[1][1]== 'n' || $m[2][0] == 'n')){
+        return -1;
     }
-    if($m[0][2]== $mp && $m[1][1] == $mp && $m[2][0] == $mp){
+    if($m[0][2]== $mp && $m[1][1] == $mp && $m[2][0] == $mp && !($m[0][2]=='n' || $m[1][1]== 'n' || $m[2][0] == 'n')){
         return 1;
-    }
-    if($m[0][2]!= $mp && $m[1][1] != $mp && $m[2][0] != $mp){
-        return -1;
     }
     return 0;
 }
@@ -181,7 +177,11 @@ function do_next($map, $mp, $level){
             }
         }
     }
-    if($map[1][1]=='n' && $numFill>0){
+    if($numFill==0 && $level>0){
+        $map[1][1] = $mp;
+        return $map;
+    }
+    elseif($map[1][1]=='n' && $numFill>0){
         $map[1][1] = $mp;
         return $map;
     }elseif($numFill>1){
@@ -190,7 +190,6 @@ function do_next($map, $mp, $level){
         return $newMap;
     }else{
         $newMap = random_do($map, $mp);
-        $_SESSION['map'] = $map;
         return $newMap;
     }
 }
@@ -206,4 +205,5 @@ $map = do_next($map, 'x');
 $map = do_next($map, 'o');
 //session_destroy();
 */
+ 
 ?>

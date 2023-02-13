@@ -116,3 +116,20 @@ span{
     color:blue;
 }
 
+.none{
+    display: none;
+}
+
+#noti{
+    padding: 0.1rem;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    width:auto;
+    height: auto;
+    text-align: center;
+    border-top: 2px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
+}
+
+
